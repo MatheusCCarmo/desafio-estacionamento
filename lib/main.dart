@@ -1,5 +1,5 @@
 import 'package:estacionamento/modules/historico/historico_page.dart';
-import 'package:estacionamento/modules/vagas/vagas_page.dart';
+import 'package:estacionamento/modules/vagas/entradas_page.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -19,23 +19,23 @@ class MyApp extends StatelessWidget {
             headline1: AppTextStyles.titleRegular,
           )),
       home: SafeArea(
-        child: AppNavigation(),
+        child: TabNavigation(),
       ),
     );
   }
 }
 
-class AppNavigation extends StatefulWidget {
-  const AppNavigation({Key? key}) : super(key: key);
+class TabNavigation extends StatefulWidget {
+  const TabNavigation({Key? key}) : super(key: key);
 
   @override
-  _AppNavigationState createState() => _AppNavigationState();
+  _TabNavigationState createState() => _TabNavigationState();
 }
 
-class _AppNavigationState extends State<AppNavigation> {
+class _TabNavigationState extends State<TabNavigation> {
   int _selectedIndex = 0;
   static const List<Widget> _pages = [
-    VagasPage(),
+    EntradasPage(),
     HistoricoPage(),
   ];
 
@@ -51,12 +51,12 @@ class _AppNavigationState extends State<AppNavigation> {
         },
         items: [
           BottomNavigationBarItem(
-            label: 'Vagas',
-            icon: Icon(Icons.home),
+            label: 'Entradas',
+            icon: Icon(Icons.list),
           ),
           BottomNavigationBarItem(
             label: 'Histórico',
-            icon: Icon(Icons.list),
+            icon: Icon(Icons.history),
           ),
         ],
         currentIndex: _selectedIndex,

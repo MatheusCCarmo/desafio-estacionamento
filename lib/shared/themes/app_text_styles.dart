@@ -7,4 +7,8 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.heading,
   );
+  static final titleRegularWhite = GoogleFonts.sourceSansPro(
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
 }
