@@ -17,4 +17,8 @@ class Store {
   static addEntrada(Entrada entrada) {
     _entradas.add(entrada);
   }
+
+  static removeEntrada(Entrada entrada) {
+    _entradas.remove(entrada);
+  }
 }

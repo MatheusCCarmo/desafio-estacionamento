@@ -66,7 +66,7 @@ class _TabNavigationState extends State<TabNavigation> {
           ),
         ],
         currentIndex: _selectedIndex,
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.white,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.grey,
       ),

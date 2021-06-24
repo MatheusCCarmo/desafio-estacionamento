@@ -3,6 +3,7 @@ import 'package:estacionamento/modules/vagas/vaga_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/widgets/add_button.dart';
+import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:flutter/material.dart';
 
 class VagasPage extends StatefulWidget {
@@ -19,29 +20,16 @@ class _VagasPageState extends State<VagasPage> {
   @override
   void initState() {
     _vagas = Store.vagas;
+    super.initState();
   }
 
-  Widget formField(String fieldDescription, TextEditingController controller) {
-    return Container(
-      child: Column(
-        children: [
-          Text(fieldDescription),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.grey,
-              ),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: TextField(
-              controller: controller,
-            ),
-          ),
-        ],
-      ),
-    );
+  @override
+  void dispose() {
+    vagaIdController.dispose();
+    super.dispose();
   }
 
+  @override
   Future<bool> _showAlertForm() async {
     return await showDialog(
       context: context,
@@ -63,12 +51,15 @@ class _VagasPageState extends State<VagasPage> {
             ),
           ],
           content: Container(
-            height: 230,
+            height: 130,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  formField('Nome ou número da vaga', vagaIdController),
+                  FormFieldWidget(
+                    fieldDescription: 'Nome ou número da vaga',
+                    controller: vagaIdController,
+                  ),
                 ],
               ),
             ),
@@ -94,6 +85,7 @@ class _VagasPageState extends State<VagasPage> {
     final size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
+      color: AppColors.background,
       child: Stack(
         alignment: Alignment.center,
         children: [

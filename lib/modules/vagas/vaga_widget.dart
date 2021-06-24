@@ -31,10 +31,10 @@ class _VagaWidgetState extends State<VagaWidget> {
         borderRadius: BorderRadius.circular(5),
         boxShadow: [
           BoxShadow(
-            color: AppColors.grey,
-            offset: Offset(0, 0),
-            spreadRadius: 1.5,
-            blurRadius: 3.5,
+            color: AppColors.greyShadow,
+            offset: Offset(1, 1),
+            spreadRadius: 1,
+            blurRadius: 6,
           ),
         ],
       ),
