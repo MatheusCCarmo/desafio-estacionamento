@@ -8,4 +8,6 @@ class AppColors {
   static final grey = Color(0xFF57606F);
   static final white = Color(0xFFFFFFFF);
   static final background = Color(0xFFF1F2F6);
+  static final occupied = Color(0xFFFF6B81);
+  static final vacant = Color(0xFF7BED9F);
 }

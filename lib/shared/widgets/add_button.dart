@@ -3,8 +3,10 @@ import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AddButton extends StatelessWidget {
-  final Function createEntradaForm;
-  const AddButton({Key? key, required this.createEntradaForm})
+  final Function onTapFunction;
+  final String buttonTitle;
+  const AddButton(
+      {Key? key, required this.onTapFunction, required this.buttonTitle})
       : super(key: key);
 
   @override
@@ -13,7 +15,7 @@ class AddButton extends StatelessWidget {
       margin: EdgeInsets.all(10),
       child: InkWell(
         onTap: () {
-          createEntradaForm();
+          onTapFunction();
         },
         child: Container(
           padding: EdgeInsets.all(10),
@@ -26,8 +28,8 @@ class AddButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Adicionar Entrada",
-                style: AppTextStyles.titleRegularWhite,
+                buttonTitle,
+                style: AppTextStyles.buttonRegularWhite,
               ),
               Icon(
                 Icons.add,

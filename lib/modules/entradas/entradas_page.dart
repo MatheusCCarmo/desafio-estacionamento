@@ -27,7 +27,6 @@ class _EntradasPageState extends State<EntradasPage> {
             decoration: BoxDecoration(
               border: Border.all(
                 color: AppColors.grey,
-                width: 1,
               ),
               borderRadius: BorderRadius.circular(6),
             ),
@@ -114,7 +113,8 @@ class _EntradasPageState extends State<EntradasPage> {
           Align(
             alignment: Alignment.bottomRight,
             child: AddButton(
-              createEntradaForm: _createEntrada,
+              buttonTitle: 'Adicionar Entrada',
+              onTapFunction: _createEntrada,
             ),
           )
         ],
