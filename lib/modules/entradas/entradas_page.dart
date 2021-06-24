@@ -40,19 +40,23 @@ class _EntradasPageState extends State<EntradasPage> {
     );
   }
 
-  _showAlertForm() {
-    showDialog(
+  Future<bool> _showAlertForm() async {
+    return await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text('Adicionar Entrada'),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
               child: Text('Cancelar'),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
               child: Text('Salvar'),
             ),
           ],
@@ -76,7 +80,8 @@ class _EntradasPageState extends State<EntradasPage> {
   }
 
   _createEntrada() async {
-    await _showAlertForm();
+    bool confirm = await _showAlertForm();
+    if (!confirm) return;
 
     Vaga vaga = Vaga(id: vagaIdController.text);
     Entrada entrada = Entrada(
@@ -84,9 +89,9 @@ class _EntradasPageState extends State<EntradasPage> {
       veicle: entradaVeicleController.text,
       entryTime: entradaEntryTimeController.text,
     );
-    // setState(() {
-    //   _entradas.add(vaga);
-    // });
+    setState(() {
+      _entradas.add(entrada);
+    });
   }
 
   @override
