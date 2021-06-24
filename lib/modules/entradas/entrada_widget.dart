@@ -1,13 +1,13 @@
-import 'package:estacionamento/model/vaga.dart';
+import 'package:estacionamento/model/entrada.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class EntradaWidget extends StatelessWidget {
-  final Vaga vaga;
+  final Entrada entrada;
 
   const EntradaWidget({
     Key? key,
-    required this.vaga,
+    required this.entrada,
   }) : super(key: key);
 
   @override

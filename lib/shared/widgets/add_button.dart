@@ -3,8 +3,9 @@ import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AddButton extends StatelessWidget {
-  final Function addEntrada;
-  const AddButton({Key? key, required this.addEntrada}) : super(key: key);
+  final Function createEntradaForm;
+  const AddButton({Key? key, required this.createEntradaForm})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class AddButton extends StatelessWidget {
       margin: EdgeInsets.all(10),
       child: InkWell(
         onTap: () {
-          addEntrada();
+          createEntradaForm();
         },
         child: Container(
           padding: EdgeInsets.all(10),

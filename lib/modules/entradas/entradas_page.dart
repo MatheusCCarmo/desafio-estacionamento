@@ -1,5 +1,6 @@
+import 'package:estacionamento/model/entrada.dart';
 import 'package:estacionamento/model/vaga.dart';
-import 'package:estacionamento/modules/vagas/entrada_widget.dart';
+import 'package:estacionamento/modules/entradas/entrada_widget.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/widgets/add_button.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,7 @@ class _EntradasPageState extends State<EntradasPage> {
   TextEditingController vagaIdController = TextEditingController();
   TextEditingController entradaVeicleController = TextEditingController();
   TextEditingController entradaEntryTimeController = TextEditingController();
-  List<Vaga> _vagas = [
-    Vaga(id: 'A1'),
-  ];
+  List<Entrada> _entradas = [];
 
   Widget formField(String fieldDescription, TextEditingController controller) {
     return Container(
@@ -76,11 +75,17 @@ class _EntradasPageState extends State<EntradasPage> {
     );
   }
 
-  adicionarEntrada() {
-    _showAlertForm();
-    // Vaga vaga = Vaga();
+  _createEntrada() async {
+    await _showAlertForm();
+
+    Vaga vaga = Vaga(id: vagaIdController.text);
+    Entrada entrada = Entrada(
+      vaga: vaga,
+      veicle: entradaVeicleController.text,
+      entryTime: entradaEntryTimeController.text,
+    );
     // setState(() {
-    //   _vagas.add(vaga);
+    //   _entradas.add(vaga);
     // });
   }
 
@@ -95,16 +100,16 @@ class _EntradasPageState extends State<EntradasPage> {
           Container(
             width: size.width * 0.85,
             child: ListView.builder(
-              itemCount: _vagas.length,
+              itemCount: _entradas.length,
               itemBuilder: (context, index) {
-                return EntradaWidget(vaga: _vagas[index]);
+                return EntradaWidget(entrada: _entradas[index]);
               },
             ),
           ),
           Align(
             alignment: Alignment.bottomRight,
             child: AddButton(
-              addEntrada: adicionarEntrada,
+              createEntradaForm: _createEntrada,
             ),
           )
         ],

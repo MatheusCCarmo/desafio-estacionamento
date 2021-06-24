@@ -1,5 +1,5 @@
 import 'package:estacionamento/modules/historico/historico_page.dart';
-import 'package:estacionamento/modules/vagas/entradas_page.dart';
+import 'package:estacionamento/modules/entradas/entradas_page.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
