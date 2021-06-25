@@ -71,16 +71,20 @@ class Store {
     return itemIndex;
   }
 
-  static getEntradaIndex(Entrada entrada) {
-    int itemIndex = _entradas.indexOf(entrada);
-    return itemIndex;
-  }
-
   static bool containsVaga(String id) {
     if (_vagas.indexWhere((element) => element.id == id) != -1) {
       return true;
     }
     return false;
+  }
+
+  static limparVagas() {
+    _vagas = [];
+  }
+
+  static getEntradaIndex(Entrada entrada) {
+    int itemIndex = _entradas.indexOf(entrada);
+    return itemIndex;
   }
 
   static setVagaVeicle(int itemIndex, String veicle) {
@@ -111,6 +115,12 @@ class Store {
   }
 
   static removeEntrada(Entrada entrada) {
+    entrada.vaga.veicle = 'Vazio';
+    entrada.vaga.isVacant = true;
     _entradas.remove(entrada);
+  }
+
+  static limparEntradas() {
+    _entradas = [];
   }
 }

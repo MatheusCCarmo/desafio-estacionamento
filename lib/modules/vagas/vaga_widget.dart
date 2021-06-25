@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:estacionamento/model/entrada.dart';
 import 'package:estacionamento/model/vaga.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
@@ -22,11 +21,11 @@ class _VagaWidgetState extends State<VagaWidget> {
       margin: EdgeInsets.all(6),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
           colors: widget.vaga.isVacant
-              ? [AppColors.vacant, AppColors.confirm]
-              : [AppColors.occupied, AppColors.delete],
+              ? [AppColors.vacantLight, AppColors.white]
+              : [AppColors.occupiedLight, AppColors.white],
         ),
         borderRadius: BorderRadius.circular(5),
         boxShadow: [
@@ -45,23 +44,38 @@ class _VagaWidgetState extends State<VagaWidget> {
             child: Text(
               widget.vaga.id,
               textAlign: TextAlign.center,
-              style: AppTextStyles.titleRegular,
+              style: AppTextStyles.heading2Regular,
               overflow: TextOverflow.fade,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.drive_eta,
-                color: AppColors.white,
+          Container(
+            decoration: ShapeDecoration(
+              color: widget.vaga.isVacant
+                  ? AppColors.vacantLight
+                  : AppColors.occupiedLight,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
               ),
-              Text(
-                widget.vaga.veicle,
-                textAlign: TextAlign.center,
-                style: AppTextStyles.bodyRegular,
-              ),
-            ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.drive_eta,
+                  color: AppColors.heading,
+                  size: 16,
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Text(
+                    widget.vaga.veicle,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.captionRegular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

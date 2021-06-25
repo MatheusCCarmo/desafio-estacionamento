@@ -13,13 +13,23 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.white,
   );
-  static final heading1 = GoogleFonts.sourceSansPro(
+  static final heading1Regular = GoogleFonts.sourceSansPro(
     fontSize: 24,
     fontWeight: FontWeight.w600,
     color: AppColors.heading,
   );
-  static final heading1White = GoogleFonts.sourceSansPro(
+  static final heading1RegularWhite = GoogleFonts.sourceSansPro(
     fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
+  static final heading2Regular = GoogleFonts.sourceSansPro(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.heading,
+  );
+  static final heading2RegularWhite = GoogleFonts.sourceSansPro(
+    fontSize: 20,
     fontWeight: FontWeight.w600,
     color: AppColors.white,
   );

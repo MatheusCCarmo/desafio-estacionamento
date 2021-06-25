@@ -38,7 +38,7 @@ class _AlertFormWidgetState extends State<AlertFormWidget> {
                   children: <Widget>[
                     Text(
                       widget.title,
-                      style: AppTextStyles.heading1,
+                      style: AppTextStyles.heading1Regular,
                     ),
                     ...widget.formFields,
                     Row(

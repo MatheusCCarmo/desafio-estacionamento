@@ -1,4 +1,3 @@
-import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ class SliverAppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       title: Text(
-        'Vagas',
+        title,
         style: AppTextStyles.titleRegularWhite,
       ),
     );
