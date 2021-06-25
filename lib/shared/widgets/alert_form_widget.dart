@@ -25,7 +25,7 @@ class _AlertFormWidgetState extends State<AlertFormWidget> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Container(
-        height: 160.0 + (70 * widget.formFields.length),
+        height: 160.0 + (80 * widget.formFields.length),
         width: 300,
         child: Container(
           child: Center(
@@ -33,34 +33,36 @@ class _AlertFormWidgetState extends State<AlertFormWidget> {
               key: _formKey,
               child: Container(
                 width: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      widget.title,
-                      style: AppTextStyles.heading1Regular,
-                    ),
-                    ...widget.formFields,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(false);
-                          },
-                          child: Text('Cancelar'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.of(context).pop(true);
-                            }
-                          },
-                          child: Text('Confirmar'),
-                        ),
-                      ],
-                    )
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        widget.title,
+                        style: AppTextStyles.heading1Regular,
+                      ),
+                      ...widget.formFields,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                            child: Text('Cancelar'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.of(context).pop(true);
+                              }
+                            },
+                            child: Text('Confirmar'),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

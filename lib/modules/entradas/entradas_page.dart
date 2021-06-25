@@ -174,7 +174,7 @@ class _EntradasPageState extends State<EntradasPage> {
           Container(
             child: CustomScrollView(
               slivers: [
-                SliverAppBarWidget(title: 'Entrada'),
+                SliverAppBarWidget(title: 'Entradas'),
                 SliverSearchWidget(searchCallback: _searchEntrada),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -182,8 +182,9 @@ class _EntradasPageState extends State<EntradasPage> {
                       return Container(
                         margin: EdgeInsets.only(top: 12, left: 20, right: 20),
                         child: EntradaWidget(
-                            entrada: _entradas[index],
-                            deleteCallback: _deleteDialog),
+                          entrada: _entradas[_entradas.length - index - 1],
+                          deleteCallback: _deleteDialog,
+                        ),
                       );
                     },
                     childCount: _entradas.length,

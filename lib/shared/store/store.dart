@@ -6,7 +6,15 @@ class Store {
 
   static List<Entrada> _entradas = [];
 
+  static List<Entrada> _historico = [];
+
   static List<Vaga> get vagas => _vagas;
+
+  static List<Entrada> get entradas => _entradas;
+
+  static List<Entrada> get historico => _historico;
+
+  Future<void> _loadData() async {}
 
   static String filter = '';
 
@@ -55,6 +63,41 @@ class Store {
     return newList;
   }
 
+  static List<Entrada> get historicoFiltrado {
+    if (filter == '') {
+      return _historico;
+    }
+
+    var filtroVaga = _historico
+        .where((element) =>
+            element.vaga.id.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+
+    var filtroVeicle = _historico
+        .where((element) =>
+            element.veicle.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+
+    var filtroEntryTime = _historico
+        .where((element) =>
+            element.entryTime.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+
+    var filtroExitTime = _historico
+        .where((element) =>
+            element.exitTime.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+
+    var newList = [
+      ...filtroEntryTime,
+      ...filtroExitTime,
+      ...filtroVeicle,
+      ...filtroVaga,
+    ].toSet().toList();
+
+    return newList;
+  }
+
   static addVaga(Vaga vaga) {
     if (containsVaga(vaga.id)) {
       return;
@@ -99,10 +142,9 @@ class Store {
     _entradas.elementAt(itemIndex).vaga.isVacant = true;
   }
 
-  static List<Entrada> get entradas => _entradas;
-
   static addEntrada(Entrada entrada) {
     _entradas.add(entrada);
+    _historico.add(entrada);
 
     int itemIndex =
         _vagas.indexWhere((element) => element.id == entrada.vaga.id);
@@ -126,5 +168,9 @@ class Store {
       element.vaga.isVacant = true;
     });
     _entradas = [];
+  }
+
+  static limparHistorico() {
+    _historico = [];
   }
 }

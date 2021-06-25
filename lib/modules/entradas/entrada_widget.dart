@@ -3,6 +3,7 @@ import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
+import 'package:estacionamento/shared/widgets/entrada_info_widget.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -75,11 +76,12 @@ class _EntradaWidgetState extends State<EntradaWidget> {
           ),
         ),
       ),
-      confirmDismiss: (direction) {
-        return widget.deleteCallback(context, widget.entrada);
+      confirmDismiss: (direction) async {
+        return await widget.deleteCallback(context, widget.entrada);
       },
       child: Container(
         height: 135,
+        padding: EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(20),
@@ -92,133 +94,50 @@ class _EntradaWidgetState extends State<EntradaWidget> {
             ),
           ],
         ),
-        child: Container(
-          padding: EdgeInsets.all(4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 6),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.place,
-                                size: 32,
-                              ),
-                              Text(
-                                widget.entrada.vaga.id,
-                                style: AppTextStyles.titleRegular,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.drive_eta),
-                              Text(
-                                widget.entrada.veicle,
-                                style: AppTextStyles.bodyRegular,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            EntradaInfoWidget(entrada: widget.entrada),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: () {
+                    widget.deleteCallback(context, widget.entrada);
+                  },
+                  child: Container(
+                    height: 34,
+                    width: 130,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.delete,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Text(
+                      'Excluir Entrada',
+                      style: AppTextStyles.buttonRegularWhite,
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Horário de Chegada',
-                          style: AppTextStyles.bodyRegular,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time_outlined,
-                              size: 18,
-                            ),
-                            Text(widget.entrada.entryTime),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          'Horário de Saída',
-                          style: AppTextStyles.bodyRegular,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time_outlined,
-                              size: 18,
-                            ),
-                            Text(widget.entrada.exitTime),
-                          ],
-                        ),
-                      ],
+                ),
+                InkWell(
+                  onTap: _registrarSaida,
+                  child: Container(
+                    height: 34,
+                    width: 130,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.grey,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Text(
+                      'Registrar Saída',
+                      style: AppTextStyles.buttonRegularWhite,
                     ),
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      widget.deleteCallback(context, widget.entrada);
-                    },
-                    child: Container(
-                      height: 34,
-                      width: 130,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.delete,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Text(
-                        'Excluir Entrada',
-                        style: AppTextStyles.buttonRegularWhite,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: _registrarSaida,
-                    child: Container(
-                      height: 34,
-                      width: 130,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.grey,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Text(
-                        'Registrar Saída',
-                        style: AppTextStyles.buttonRegularWhite,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
