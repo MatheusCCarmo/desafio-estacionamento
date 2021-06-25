@@ -4,7 +4,10 @@ import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:estacionamento/shared/widgets/add_button.dart';
+import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
+import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
+import 'package:estacionamento/shared/widgets/sliver_search_widget.dart';
 import 'package:flutter/material.dart';
 
 class VagasPage extends StatefulWidget {
@@ -16,13 +19,20 @@ class VagasPage extends StatefulWidget {
 
 class _VagasPageState extends State<VagasPage> {
   TextEditingController _vagaIdController = TextEditingController();
+  late List<FormFieldWidget> formFields;
 
   late List<Vaga> _vagas;
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     _vagas = Store.vagas;
+    formFields = [
+      FormFieldWidget(
+        fieldDescription: 'Identificação da Nova Vaga',
+        controller: _vagaIdController,
+        hintText: 'Ex: 02, A1...',
+      ),
+    ];
     super.initState();
   }
 
@@ -36,58 +46,7 @@ class _VagasPageState extends State<VagasPage> {
     return await showDialog(
       context: context,
       builder: (context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Container(
-            height: 250,
-            width: 300,
-            child: Container(
-              child: Center(
-                child: Form(
-                  key: _formKey,
-                  child: Container(
-                    width: 200,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(
-                          'Adicionar Vaga',
-                          style: AppTextStyles.heading1,
-                        ),
-                        FormFieldWidget(
-                          fieldDescription: 'Identificação da Nova Vaga',
-                          controller: _vagaIdController,
-                          hintText: 'Ex: 02, A1...',
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                              },
-                              child: Text('Cancelar'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Navigator.of(context).pop(true);
-                                }
-                              },
-                              child: Text('Confirmar'),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
+        return AlertFormWidget(title: 'Adicionar Vaga', formFields: formFields);
       },
     );
   }
@@ -121,53 +80,8 @@ class _VagasPageState extends State<VagasPage> {
           Container(
             child: CustomScrollView(
               slivers: [
-                SliverAppBar(
-                  title: Text(
-                    'Vagas',
-                    style: AppTextStyles.titleRegularWhite,
-                  ),
-                ),
-                SliverAppBar(
-                  pinned: true,
-                  elevation: 1,
-                  toolbarHeight: 50,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(25),
-                      bottomRight: Radius.circular(25),
-                    ),
-                  ),
-                  flexibleSpace: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: TextField(
-                        onChanged: (value) {
-                          _searchVaga(value);
-                        },
-                        style: AppTextStyles.body2RegularWhite,
-                        decoration: InputDecoration(
-                          prefixIconConstraints: BoxConstraints.tight(
-                            Size(35, 30),
-                          ),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: AppColors.white,
-                            size: 22,
-                          ),
-                          hintText: 'Procurar',
-                          hintStyle: TextStyle(
-                            color: AppColors.white,
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                SliverAppBarWidget(title: 'Vagas'),
+                SliverSearchWidget(searchCallback: _searchVaga),
                 SliverGrid(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {

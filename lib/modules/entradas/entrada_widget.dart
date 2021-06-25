@@ -1,47 +1,27 @@
 import 'package:estacionamento/model/entrada.dart';
-import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
-class EntradaWidget extends StatelessWidget {
+class EntradaWidget extends StatefulWidget {
   final Entrada entrada;
+  final Function deleteCallback;
 
   const EntradaWidget({
     Key? key,
     required this.entrada,
+    required this.deleteCallback,
   }) : super(key: key);
 
-  Future<bool> _deleteDialog(BuildContext context) async {
-    return await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Excluir essa entrada?'),
-          content: Text(
-              'Ela será excluída da página de entradas, mas estará presente no seu histórico.'),
-          actions: [
-            TextButton(
-              child: Text('Cancelar'),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            TextButton(
-              child: Text('Confirmar'),
-              onPressed: () {
-                Store.removeEntrada(entrada);
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  @override
+  _EntradaWidgetState createState() => _EntradaWidgetState();
+}
 
+class _EntradaWidgetState extends State<EntradaWidget> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ObjectKey(key),
+      key: ObjectKey(widget.key),
       direction: DismissDirection.endToStart,
       background: Container(
         decoration: BoxDecoration(
@@ -59,7 +39,7 @@ class EntradaWidget extends StatelessWidget {
         ),
       ),
       confirmDismiss: (direction) {
-        return _deleteDialog(context);
+        return widget.deleteCallback(context, widget.entrada);
       },
       child: Container(
         height: 135,
@@ -97,7 +77,7 @@ class EntradaWidget extends StatelessWidget {
                                 size: 32,
                               ),
                               Text(
-                                entrada.vaga.id,
+                                widget.entrada.vaga.id,
                                 style: AppTextStyles.titleRegular,
                               ),
                             ],
@@ -112,7 +92,7 @@ class EntradaWidget extends StatelessWidget {
                             children: [
                               Icon(Icons.drive_eta),
                               Text(
-                                entrada.veicle,
+                                widget.entrada.veicle,
                                 style: AppTextStyles.bodyRegular,
                               ),
                             ],
@@ -137,7 +117,7 @@ class EntradaWidget extends StatelessWidget {
                               Icons.access_time_outlined,
                               size: 18,
                             ),
-                            Text(entrada.entryTime),
+                            Text(widget.entrada.entryTime),
                           ],
                         ),
                         SizedBox(
@@ -153,7 +133,7 @@ class EntradaWidget extends StatelessWidget {
                               Icons.access_time_outlined,
                               size: 18,
                             ),
-                            Text(entrada.exitTime),
+                            Text(widget.entrada.exitTime),
                           ],
                         ),
                       ],
@@ -168,25 +148,25 @@ class EntradaWidget extends StatelessWidget {
                     onTap: () {},
                     child: Container(
                       height: 34,
-                      width: 100,
+                      width: 130,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: AppColors.grey,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: Text(
-                        'Editar',
+                        'Registrar Saída',
                         style: AppTextStyles.buttonRegularWhite,
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: () {
-                      _deleteDialog(context);
+                      widget.deleteCallback(context, widget.entrada);
                     },
                     child: Container(
                       height: 34,
-                      width: 100,
+                      width: 130,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: AppColors.delete,
