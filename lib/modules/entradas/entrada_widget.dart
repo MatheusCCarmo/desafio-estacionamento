@@ -1,6 +1,9 @@
 import 'package:estacionamento/model/entrada.dart';
+import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
+import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
+import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:flutter/material.dart';
 
 class EntradaWidget extends StatefulWidget {
@@ -18,6 +21,40 @@ class EntradaWidget extends StatefulWidget {
 }
 
 class _EntradaWidgetState extends State<EntradaWidget> {
+  TextEditingController _exitTimeController = TextEditingController();
+  late List<FormFieldWidget> formFields;
+
+  @override
+  void initState() {
+    formFields = [
+      FormFieldWidget(
+        fieldDescription: 'Horário de Saída',
+        controller: _exitTimeController,
+        hintText: 'Ex: 17:40, 15 horas...',
+      ),
+    ];
+    super.initState();
+  }
+
+  Future<bool> _showAlertForm() async {
+    return await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertFormWidget(
+            title: 'Registrar Saída', formFields: formFields);
+      },
+    );
+  }
+
+  _registrarSaida() async {
+    bool confirm = await _showAlertForm();
+    if (!confirm) return;
+
+    setState(() {
+      Store.registrarSaida(widget.entrada, _exitTimeController.text);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -145,7 +182,7 @@ class _EntradaWidgetState extends State<EntradaWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: _registrarSaida,
                     child: Container(
                       height: 34,
                       width: 130,

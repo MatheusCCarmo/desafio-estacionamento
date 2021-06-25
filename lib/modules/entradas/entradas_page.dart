@@ -26,7 +26,6 @@ class _EntradasPageState extends State<EntradasPage> {
   final TextEditingController _entradaEntryTimeController =
       TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
   late List<FormFieldWidget> formFields;
 
   List<Entrada> _entradas = [];
