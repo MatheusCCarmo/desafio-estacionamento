@@ -2,12 +2,18 @@ import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
-class AddButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final Function onTapFunction;
-  final String buttonTitle;
-  const AddButton(
-      {Key? key, required this.onTapFunction, required this.buttonTitle})
-      : super(key: key);
+  final String title;
+  final Color color;
+  final IconData icon;
+  const CustomButton({
+    Key? key,
+    required this.onTapFunction,
+    required this.title,
+    required this.color,
+    required this.icon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +26,14 @@ class AddButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: color,
             borderRadius: BorderRadius.circular(50),
             boxShadow: [
               BoxShadow(
                 color: AppColors.grey,
                 offset: Offset(0, 0),
                 spreadRadius: 1,
-                blurRadius: 5,
+                blurRadius: 6,
               ),
             ],
           ),
@@ -36,11 +42,11 @@ class AddButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                buttonTitle,
+                title,
                 style: AppTextStyles.buttonRegularWhite,
               ),
               Icon(
-                Icons.add,
+                icon,
                 color: AppColors.white,
               ),
             ],

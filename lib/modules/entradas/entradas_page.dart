@@ -4,7 +4,7 @@ import 'package:estacionamento/modules/entradas/entrada_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
-import 'package:estacionamento/shared/widgets/add_button.dart';
+import 'package:estacionamento/shared/widgets/custom_button.dart';
 import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
@@ -126,6 +126,43 @@ class _EntradasPageState extends State<EntradasPage> {
     });
   }
 
+  _limparEntradas() async {
+    bool confirm = await _showAlertLimpar();
+    if (!confirm) return;
+
+    setState(() {
+      Store.limparEntradas();
+      _entradas = Store.entradas;
+    });
+  }
+
+  _showAlertLimpar() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Deseja excluir todas as entradas?'),
+          content: Text(
+              'As entradas seram excluídas da página de entradas, mas estarão presentes no seu histórico.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text('Confirmar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,9 +199,22 @@ class _EntradasPageState extends State<EntradasPage> {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: AddButton(
-              buttonTitle: 'Adicionar Entrada',
-              onTapFunction: _createEntrada,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(
+                  title: 'Limpar Entradas',
+                  onTapFunction: _limparEntradas,
+                  icon: Icons.delete,
+                  color: AppColors.delete,
+                ),
+                CustomButton(
+                  title: 'Adicionar Entrada',
+                  color: AppColors.primary,
+                  icon: Icons.add,
+                  onTapFunction: _createEntrada,
+                ),
+              ],
             ),
           )
         ],

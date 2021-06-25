@@ -182,22 +182,6 @@ class _EntradaWidgetState extends State<EntradaWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: _registrarSaida,
-                    child: Container(
-                      height: 34,
-                      width: 130,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.grey,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Text(
-                        'Registrar Saída',
-                        style: AppTextStyles.buttonRegularWhite,
-                      ),
-                    ),
-                  ),
-                  InkWell(
                     onTap: () {
                       widget.deleteCallback(context, widget.entrada);
                     },
@@ -210,7 +194,23 @@ class _EntradaWidgetState extends State<EntradaWidget> {
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: Text(
-                        'Excluir',
+                        'Excluir Entrada',
+                        style: AppTextStyles.buttonRegularWhite,
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: _registrarSaida,
+                    child: Container(
+                      height: 34,
+                      width: 130,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.grey,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Text(
+                        'Registrar Saída',
                         style: AppTextStyles.buttonRegularWhite,
                       ),
                     ),

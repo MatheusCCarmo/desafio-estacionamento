@@ -3,7 +3,7 @@ import 'package:estacionamento/modules/vagas/vaga_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
-import 'package:estacionamento/shared/widgets/add_button.dart';
+import 'package:estacionamento/shared/widgets/custom_button.dart';
 import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
@@ -105,6 +105,41 @@ class _VagasPageState extends State<VagasPage> {
     );
   }
 
+  _limparVagas() async {
+    bool confirm = await _showAlertLimpar();
+    if (!confirm) return;
+
+    setState(() {
+      Store.limparVagasVazias();
+      _vagas = Store.vagas;
+    });
+  }
+
+  _showAlertLimpar() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Deseja excluir todas as vagas vazias?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text('Confirmar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -142,10 +177,23 @@ class _VagasPageState extends State<VagasPage> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomRight,
-            child: AddButton(
-              buttonTitle: 'Adicionar Vaga',
-              onTapFunction: _createVaga,
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(
+                  title: 'Limpar Vagas',
+                  onTapFunction: _limparVagas,
+                  icon: Icons.delete,
+                  color: AppColors.delete,
+                ),
+                CustomButton(
+                  title: 'Adicionar Vaga',
+                  color: AppColors.primary,
+                  icon: Icons.add,
+                  onTapFunction: _createVaga,
+                ),
+              ],
             ),
           )
         ],

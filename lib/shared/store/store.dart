@@ -78,8 +78,8 @@ class Store {
     return false;
   }
 
-  static limparVagas() {
-    _vagas = [];
+  static limparVagasVazias() {
+    _vagas = _vagas.where((element) => !element.isVacant).toList();
   }
 
   static getEntradaIndex(Entrada entrada) {
@@ -121,6 +121,10 @@ class Store {
   }
 
   static limparEntradas() {
+    _entradas.forEach((element) {
+      element.vaga.veicle = 'Vazio';
+      element.vaga.isVacant = true;
+    });
     _entradas = [];
   }
 }
