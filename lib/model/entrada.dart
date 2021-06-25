@@ -1,8 +1,6 @@
 import 'package:estacionamento/model/vaga.dart';
-import 'package:flutter/material.dart';
 
 class Entrada {
-  String id = UniqueKey().toString();
   Vaga vaga;
   String veicle;
   String entryTime;
@@ -14,4 +12,17 @@ class Entrada {
     required this.entryTime,
     this.exitTime = '',
   });
+
+  Entrada.fromJson(Map<String, dynamic> json)
+      : vaga = json['vaga'],
+        veicle = json['veicle'],
+        entryTime = json['entryTime'],
+        exitTime = json['exitTime'];
+
+  Map<String, dynamic> toJson() => {
+        'vaga': vaga,
+        'veicle': veicle,
+        'entryTime': entryTime,
+        'exitTime': exitTime,
+      };
 }

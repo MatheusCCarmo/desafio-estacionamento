@@ -8,4 +8,15 @@ class Vaga {
     this.isVacant = true,
     this.veicle = 'Vazio',
   });
+
+  Vaga.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        isVacant = json['isVacant'],
+        veicle = json['veicle'];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'isVacant': isVacant,
+        'veicle': veicle,
+      };
 }
