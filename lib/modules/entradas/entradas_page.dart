@@ -3,8 +3,10 @@ import 'package:estacionamento/model/vaga.dart';
 import 'package:estacionamento/modules/entradas/entrada_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
+import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:estacionamento/shared/widgets/add_button.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class EntradasPage extends StatefulWidget {
@@ -15,9 +17,11 @@ class EntradasPage extends StatefulWidget {
 }
 
 class _EntradasPageState extends State<EntradasPage> {
-  TextEditingController vagaIdController = TextEditingController();
-  TextEditingController entradaVeicleController = TextEditingController();
-  TextEditingController entradaEntryTimeController = TextEditingController();
+  final TextEditingController vagaIdController = TextEditingController();
+  final TextEditingController entradaVeicleController = TextEditingController();
+  final TextEditingController entradaEntryTimeController =
+      TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   List<Entrada> _entradas = [];
 
   @override
@@ -38,38 +42,63 @@ class _EntradasPageState extends State<EntradasPage> {
     return await showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text('Adicionar Entrada'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text('Cancelar'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text('Salvar'),
-            ),
-          ],
-          content: Container(
-            height: 230,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FormFieldWidget(
-                      fieldDescription: 'Nome ou número da vaga',
-                      controller: vagaIdController),
-                  FormFieldWidget(
-                      fieldDescription: 'Veículo que entrou na vaga',
-                      controller: entradaVeicleController),
-                  FormFieldWidget(
-                      fieldDescription: 'Horário de Entrada',
-                      controller: entradaEntryTimeController),
-                ],
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Container(
+            height: 450,
+            width: 300,
+            child: Container(
+              child: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Container(
+                    width: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          'Adicionar Entrada',
+                          style: AppTextStyles.heading1,
+                        ),
+                        FormFieldWidget(
+                          fieldDescription: 'Identificação da Vaga',
+                          controller: vagaIdController,
+                          hintText: 'Ex: 02, A1...',
+                        ),
+                        FormFieldWidget(
+                            fieldDescription: 'Identificação do Veículo',
+                            controller: entradaVeicleController,
+                            hintText: 'Ex: JLK-1265, KMT 2067'),
+                        FormFieldWidget(
+                          fieldDescription: 'Horário de Entrada',
+                          controller: entradaEntryTimeController,
+                          hintText: 'Ex: 09:40, meio-dia',
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              child: Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  Navigator.of(context).pop(true);
+                                }
+                              },
+                              child: Text('Confirmar'),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -82,14 +111,19 @@ class _EntradasPageState extends State<EntradasPage> {
     bool confirm = await _showAlertForm();
     if (!confirm) return;
 
-    Vaga vaga = Vaga(id: vagaIdController.text);
+    Vaga vaga = Vaga(
+      id: vagaIdController.text,
+      veicle: entradaVeicleController.text,
+      isVacant: false,
+    );
     Entrada entrada = Entrada(
       vaga: vaga,
       veicle: entradaVeicleController.text,
       entryTime: entradaEntryTimeController.text,
     );
+
     setState(() {
-      _entradas.add(entrada);
+      Store.addEntrada(entrada);
     });
   }
 
@@ -105,11 +139,14 @@ class _EntradasPageState extends State<EntradasPage> {
           Container(
             width: size.width * 0.85,
             child: ListView.builder(
+              dragStartBehavior: DragStartBehavior.down,
               itemCount: _entradas.length,
               itemBuilder: (context, index) {
                 return Container(
-                    margin: EdgeInsets.only(top: 12),
-                    child: EntradaWidget(entrada: _entradas[index]));
+                  margin: EdgeInsets.only(top: 12),
+                  child: EntradaWidget(
+                      entrada: _entradas[_entradas.length - index - 1]),
+                );
               },
             ),
           ),

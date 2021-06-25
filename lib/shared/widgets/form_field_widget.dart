@@ -1,11 +1,18 @@
+import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
+import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class FormFieldWidget extends StatelessWidget {
   final String fieldDescription;
   final TextEditingController controller;
+  final String hintText;
+
   const FormFieldWidget(
-      {Key? key, required this.fieldDescription, required this.controller})
+      {Key? key,
+      required this.fieldDescription,
+      required this.controller,
+      required this.hintText})
       : super(key: key);
 
   @override
@@ -17,12 +24,35 @@ class FormFieldWidget extends StatelessWidget {
           Text(fieldDescription),
           Container(
             decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.grey,
-              ),
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(6),
             ),
-            child: TextField(
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle: TextStyle(fontSize: 14),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Preencha o campo!';
+                }
+
+                int itemIndex =
+                    Store.vagas.indexWhere((element) => element.id == value);
+
+                if (itemIndex != -1 &&
+                    !Store.vagas.elementAt(itemIndex).isVacant &&
+                    fieldDescription == 'Identificação da Vaga') {
+                  return 'Esta vaga já está ocupada!';
+                }
+
+                if (itemIndex != -1 &&
+                    fieldDescription == 'Identificação da Nova Vaga') {
+                  return 'Esta vaga já existe!';
+                }
+
+                return null;
+              },
               controller: controller,
             ),
           ),

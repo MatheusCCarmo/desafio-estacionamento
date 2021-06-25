@@ -53,4 +53,9 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.white,
   );
+  static final hintRegular = GoogleFonts.sourceSansPro(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.heading,
+  );
 }

@@ -44,12 +44,21 @@ class _VagaWidgetState extends State<VagaWidget> {
           Text(
             widget.vaga.id,
             textAlign: TextAlign.center,
-            style: AppTextStyles.bodyRegular,
+            style: AppTextStyles.titleRegular,
           ),
-          Text(
-            widget.vaga.veicle,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.bodyRegular,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.drive_eta,
+                color: AppColors.white,
+              ),
+              Text(
+                widget.vaga.veicle,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.bodyRegular,
+              ),
+            ],
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:estacionamento/model/vaga.dart';
 import 'package:estacionamento/modules/vagas/vaga_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
+import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:estacionamento/shared/widgets/add_button.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class VagasPage extends StatefulWidget {
 class _VagasPageState extends State<VagasPage> {
   TextEditingController vagaIdController = TextEditingController();
   late List<Vaga> _vagas;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -34,33 +36,54 @@ class _VagasPageState extends State<VagasPage> {
     return await showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text('Adicionar Vaga'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text('Cancelar'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text('Salvar'),
-            ),
-          ],
-          content: Container(
-            height: 130,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FormFieldWidget(
-                    fieldDescription: 'Nome ou número da vaga',
-                    controller: vagaIdController,
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Container(
+            height: 250,
+            width: 300,
+            child: Container(
+              child: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Container(
+                    width: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          'Adicionar Vaga',
+                          style: AppTextStyles.heading1,
+                        ),
+                        FormFieldWidget(
+                          fieldDescription: 'Identificação da Nova Vaga',
+                          controller: vagaIdController,
+                          hintText: 'Ex: 02, A1...',
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              child: Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  Navigator.of(context).pop(true);
+                                }
+                              },
+                              child: Text('Confirmar'),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -97,7 +120,7 @@ class _VagasPageState extends State<VagasPage> {
               ),
               itemCount: _vagas.length,
               itemBuilder: (context, index) {
-                return VagaWidget(vaga: _vagas[index]);
+                return VagaWidget(vaga: _vagas[_vagas.length - index - 1]);
               },
             ),
           ),

@@ -17,8 +17,9 @@ class EntradaWidget extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Atenção!'),
-          content: Text('Deseja mesmo excluir essa entrada?'),
+          title: Text('Excluir essa entrada?'),
+          content: Text(
+              'Ela será excluída da página de entradas, mas estará presente no seu histórico.'),
           actions: [
             TextButton(
               child: Text('Cancelar'),
@@ -192,7 +193,7 @@ class EntradaWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: Text(
-                        'Deletar',
+                        'Excluir',
                         style: AppTextStyles.buttonRegularWhite,
                       ),
                     ),
