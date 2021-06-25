@@ -17,10 +17,13 @@ class EntradasPage extends StatefulWidget {
 }
 
 class _EntradasPageState extends State<EntradasPage> {
-  final TextEditingController vagaIdController = TextEditingController();
-  final TextEditingController entradaVeicleController = TextEditingController();
-  final TextEditingController entradaEntryTimeController =
+  final TextEditingController _vagaIdController = TextEditingController();
+  final TextEditingController _entradaVeicleController =
       TextEditingController();
+  final TextEditingController _entradaEntryTimeController =
+      TextEditingController();
+  final TextEditingController _buscaController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   List<Entrada> _entradas = [];
 
@@ -32,9 +35,9 @@ class _EntradasPageState extends State<EntradasPage> {
 
   @override
   void dispose() {
-    vagaIdController.dispose();
-    entradaVeicleController.dispose();
-    entradaEntryTimeController.dispose();
+    _vagaIdController.dispose();
+    _entradaVeicleController.dispose();
+    _entradaEntryTimeController.dispose();
     super.dispose();
   }
 
@@ -44,7 +47,7 @@ class _EntradasPageState extends State<EntradasPage> {
       builder: (context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Container(
             height: 450,
@@ -64,16 +67,16 @@ class _EntradasPageState extends State<EntradasPage> {
                         ),
                         FormFieldWidget(
                           fieldDescription: 'Identificação da Vaga',
-                          controller: vagaIdController,
+                          controller: _vagaIdController,
                           hintText: 'Ex: 02, A1...',
                         ),
                         FormFieldWidget(
                             fieldDescription: 'Identificação do Veículo',
-                            controller: entradaVeicleController,
+                            controller: _entradaVeicleController,
                             hintText: 'Ex: JLK-1265, KMT 2067'),
                         FormFieldWidget(
                           fieldDescription: 'Horário de Entrada',
-                          controller: entradaEntryTimeController,
+                          controller: _entradaEntryTimeController,
                           hintText: 'Ex: 09:40, meio-dia',
                         ),
                         Row(
@@ -112,14 +115,14 @@ class _EntradasPageState extends State<EntradasPage> {
     if (!confirm) return;
 
     Vaga vaga = Vaga(
-      id: vagaIdController.text,
-      veicle: entradaVeicleController.text,
+      id: _vagaIdController.text,
+      veicle: _entradaVeicleController.text,
       isVacant: false,
     );
     Entrada entrada = Entrada(
       vaga: vaga,
-      veicle: entradaVeicleController.text,
-      entryTime: entradaEntryTimeController.text,
+      veicle: _entradaVeicleController.text,
+      entryTime: _entradaEntryTimeController.text,
     );
 
     setState(() {
@@ -127,9 +130,15 @@ class _EntradasPageState extends State<EntradasPage> {
     });
   }
 
+  searchEntrada() {
+    setState(() {
+      Store.filter = _buscaController.text;
+      _entradas = Store.entradasFiltradas;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Container(
       color: AppColors.background,
       width: double.infinity,
@@ -137,17 +146,65 @@ class _EntradasPageState extends State<EntradasPage> {
         alignment: Alignment.center,
         children: [
           Container(
-            width: size.width * 0.85,
-            child: ListView.builder(
-              dragStartBehavior: DragStartBehavior.down,
-              itemCount: _entradas.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(top: 12),
-                  child: EntradaWidget(
-                      entrada: _entradas[_entradas.length - index - 1]),
-                );
-              },
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  title: Text(
+                    'Entradas',
+                    style: AppTextStyles.titleRegularWhite,
+                  ),
+                ),
+                SliverAppBar(
+                  pinned: true,
+                  elevation: 1,
+                  toolbarHeight: 50,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                  ),
+                  flexibleSpace: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: TextField(
+                        controller: _buscaController,
+                        onChanged: searchEntrada(),
+                        style: AppTextStyles.body2RegularWhite,
+                        decoration: InputDecoration(
+                          prefixIconConstraints: BoxConstraints.tight(
+                            Size(35, 30),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: AppColors.white,
+                            size: 22,
+                          ),
+                          hintText: 'Procurar',
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(top: 12, left: 20, right: 20),
+                      child: EntradaWidget(
+                          entrada: _entradas[_entradas.length - index - 1]),
+                    );
+                  }, childCount: _entradas.length),
+                ),
+              ],
             ),
           ),
           Align(

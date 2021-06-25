@@ -33,6 +33,16 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.white,
   );
+  static final body2Regular = GoogleFonts.sourceSansPro(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.heading,
+  );
+  static final body2RegularWhite = GoogleFonts.sourceSansPro(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
   static final buttonRegular = GoogleFonts.sourceSansPro(
     fontSize: 14,
     fontWeight: FontWeight.w600,

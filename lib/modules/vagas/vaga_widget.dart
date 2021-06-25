@@ -41,10 +41,13 @@ class _VagaWidgetState extends State<VagaWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text(
-            widget.vaga.id,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.titleRegular,
+          Expanded(
+            child: Text(
+              widget.vaga.id,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.titleRegular,
+              overflow: TextOverflow.fade,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

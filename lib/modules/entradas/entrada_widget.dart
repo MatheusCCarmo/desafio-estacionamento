@@ -62,10 +62,10 @@ class EntradaWidget extends StatelessWidget {
         return _deleteDialog(context);
       },
       child: Container(
-        height: 130,
+        height: 135,
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: AppColors.greyShadow,

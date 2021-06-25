@@ -8,6 +8,28 @@ class Store {
 
   static List<Vaga> get vagas => _vagas;
 
+  static List<Vaga> get vagasFiltradas {
+    if (filter == '') {
+      return _vagas;
+    }
+    return _vagas
+        .where((element) =>
+            element.id.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+  }
+
+  static List<Entrada> get entradasFiltradas {
+    if (filter == '') {
+      return _entradas;
+    }
+    return _entradas
+        .where((element) =>
+            element.veicle.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+  }
+
+  static String filter = '';
+
   static addVaga(Vaga vaga) {
     if (containsVaga(vaga.id)) {
       return;

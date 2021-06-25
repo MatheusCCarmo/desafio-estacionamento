@@ -15,23 +15,31 @@ class VagasPage extends StatefulWidget {
 }
 
 class _VagasPageState extends State<VagasPage> {
-  TextEditingController vagaIdController = TextEditingController();
+  TextEditingController _vagaIdController = TextEditingController();
+  TextEditingController _buscaController = TextEditingController();
+
   late List<Vaga> _vagas;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    _vagas = Store.vagas;
+    _vagas = Store.vagasFiltradas;
     super.initState();
   }
 
   @override
   void dispose() {
-    vagaIdController.dispose();
+    _vagaIdController.dispose();
     super.dispose();
   }
 
-  @override
+  searchVaga() {
+    setState(() {
+      Store.filter = _buscaController.text;
+      _vagas = Store.vagasFiltradas;
+    });
+  }
+
   Future<bool> _showAlertForm() async {
     return await showDialog(
       context: context,
@@ -58,7 +66,7 @@ class _VagasPageState extends State<VagasPage> {
                         ),
                         FormFieldWidget(
                           fieldDescription: 'Identificação da Nova Vaga',
-                          controller: vagaIdController,
+                          controller: _vagaIdController,
                           hintText: 'Ex: 02, A1...',
                         ),
                         Row(
@@ -96,7 +104,7 @@ class _VagasPageState extends State<VagasPage> {
     bool confirm = await _showAlertForm();
     if (!confirm) return;
 
-    Vaga vaga = Vaga(id: vagaIdController.text);
+    Vaga vaga = Vaga(id: _vagaIdController.text);
 
     setState(() {
       Store.addVaga(vaga);
@@ -105,7 +113,6 @@ class _VagasPageState extends State<VagasPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
       color: AppColors.background,
@@ -113,15 +120,67 @@ class _VagasPageState extends State<VagasPage> {
         alignment: Alignment.center,
         children: [
           Container(
-            width: size.width * 0.90,
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 150,
-              ),
-              itemCount: _vagas.length,
-              itemBuilder: (context, index) {
-                return VagaWidget(vaga: _vagas[_vagas.length - index - 1]);
-              },
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  title: Text(
+                    'Vagas',
+                    style: AppTextStyles.titleRegularWhite,
+                  ),
+                ),
+                SliverAppBar(
+                  pinned: true,
+                  elevation: 1,
+                  toolbarHeight: 50,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                  ),
+                  flexibleSpace: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: TextField(
+                        controller: _buscaController,
+                        onChanged: searchVaga(),
+                        style: AppTextStyles.body2RegularWhite,
+                        decoration: InputDecoration(
+                          prefixIconConstraints: BoxConstraints.tight(
+                            Size(35, 30),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: AppColors.white,
+                            size: 22,
+                          ),
+                          hintText: 'Procurar',
+                          hintStyle: TextStyle(
+                            color: AppColors.white,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return VagaWidget(
+                        vaga: _vagas[_vagas.length - index - 1],
+                      );
+                    },
+                    childCount: _vagas.length,
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
+                )
+              ],
             ),
           ),
           Align(
