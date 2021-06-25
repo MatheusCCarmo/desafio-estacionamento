@@ -2,6 +2,7 @@ import 'package:estacionamento/model/vaga.dart';
 import 'package:estacionamento/modules/vagas/vaga_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
+import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:estacionamento/shared/widgets/add_button.dart';
 import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
@@ -68,6 +69,42 @@ class _VagasPageState extends State<VagasPage> {
     });
   }
 
+  _showVagaDialog(vaga) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Deseja excluir a vaga "${vaga.id}"?'),
+          content: Text(
+            vaga.isVacant
+                ? ''
+                : 'Você não pode excluir uma vaga que está ocupada! Registre a saída ou exclua a entrada correspondente para conseguir excluir esta vaga.',
+            style: AppTextStyles.body2RegularError,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (vaga.isVacant) {
+                  setState(() {
+                    Store.removeVaga(vaga);
+                  });
+                  Navigator.of(context).pop(true);
+                }
+              },
+              child: Text('Confirmar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -86,6 +123,7 @@ class _VagasPageState extends State<VagasPage> {
                     (BuildContext context, int index) {
                       return VagaWidget(
                         vaga: _vagas[_vagas.length - index - 1],
+                        onTapCallback: _showVagaDialog,
                       );
                     },
                     childCount: _vagas.length,

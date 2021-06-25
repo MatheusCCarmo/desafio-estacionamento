@@ -24,7 +24,7 @@ class Store {
             element.veicle.toLowerCase().contains(filter.toLowerCase()))
         .toList();
 
-    var newList = [...filtroVaga, ...filtroVeicle].toSet().toList();
+    var newList = [...filtroVeicle, ...filtroVaga].toSet().toList();
 
     return newList;
   }
@@ -50,7 +50,7 @@ class Store {
         .toList();
 
     var newList =
-        [...filtroVaga, ...filtroVeicle, ...filtroEntryTime].toSet().toList();
+        [...filtroEntryTime, ...filtroVeicle, ...filtroVaga].toSet().toList();
 
     return newList;
   }

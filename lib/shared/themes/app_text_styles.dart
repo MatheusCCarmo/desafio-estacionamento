@@ -53,6 +53,11 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.white,
   );
+  static final body2RegularError = GoogleFonts.sourceSansPro(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.delete,
+  );
   static final buttonRegular = GoogleFonts.sourceSansPro(
     fontSize: 14,
     fontWeight: FontWeight.w600,

@@ -7,7 +7,7 @@ class AppColors {
   static final heading = Color(0xFF2F3542);
   static final grey = Color(0xFF57606F);
   static final greyShadow = Color(0x4057606F);
-  static final transparentGrey = Color(0x20DFE4EA);
+  static final transparentGrey = Color(0xB9DFE4EA);
   static final lightGrey = Color(0xFFDFE4EA);
   static final white = Color(0xFFFFFFFF);
   static final background = Color(0xFFF1F2F6);
