@@ -89,8 +89,8 @@ class _EntradasPageState extends State<EntradasPage> {
               onPressed: () {
                 setState(() {
                   Store.removeEntrada(entrada);
+                  Navigator.of(context).pop(true);
                 });
-                Navigator.of(context).pop(true);
               },
             ),
           ],
@@ -145,7 +145,7 @@ class _EntradasPageState extends State<EntradasPage> {
                       return Container(
                         margin: EdgeInsets.only(top: 12, left: 20, right: 20),
                         child: EntradaWidget(
-                            entrada: _entradas[_entradas.length - index - 1],
+                            entrada: _entradas[index],
                             deleteCallback: _deleteDialog),
                       );
                     },

@@ -58,7 +58,7 @@ class _EntradaWidgetState extends State<EntradaWidget> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ObjectKey(widget.key),
+      key: UniqueKey(),
       direction: DismissDirection.endToStart,
       background: Container(
         decoration: BoxDecoration(

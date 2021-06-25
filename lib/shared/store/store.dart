@@ -112,8 +112,5 @@ class Store {
 
   static removeEntrada(Entrada entrada) {
     _entradas.remove(entrada);
-    _entradas.forEach((element) {
-      print(element.vaga.id);
-    });
   }
 }

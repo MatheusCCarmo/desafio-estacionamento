@@ -91,7 +91,7 @@ class _VagasPageState extends State<VagasPage> {
                     childCount: _vagas.length,
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4),
+                      crossAxisCount: 3),
                 ),
                 SliverToBoxAdapter(
                   child: SizedBox(
