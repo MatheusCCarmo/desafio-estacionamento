@@ -22,6 +22,14 @@ class AddButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(50),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.grey,
+                offset: Offset(0, 0),
+                spreadRadius: 1,
+                blurRadius: 5,
+              ),
+            ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,

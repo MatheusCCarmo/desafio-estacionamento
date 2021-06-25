@@ -22,7 +22,6 @@ class _EntradasPageState extends State<EntradasPage> {
       TextEditingController();
   final TextEditingController _entradaEntryTimeController =
       TextEditingController();
-  final TextEditingController _buscaController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   List<Entrada> _entradas = [];
@@ -130,9 +129,9 @@ class _EntradasPageState extends State<EntradasPage> {
     });
   }
 
-  searchEntrada() {
+  searchEntrada(value) {
     setState(() {
-      Store.filter = _buscaController.text;
+      Store.filter = value;
       _entradas = Store.entradasFiltradas;
     });
   }
@@ -172,8 +171,9 @@ class _EntradasPageState extends State<EntradasPage> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: TextField(
-                        controller: _buscaController,
-                        onChanged: searchEntrada(),
+                        onChanged: (value) {
+                          searchEntrada(value);
+                        },
                         style: AppTextStyles.body2RegularWhite,
                         decoration: InputDecoration(
                           prefixIconConstraints: BoxConstraints.tight(
@@ -196,13 +196,20 @@ class _EntradasPageState extends State<EntradasPage> {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(top: 12, left: 20, right: 20),
-                      child: EntradaWidget(
-                          entrada: _entradas[_entradas.length - index - 1]),
-                    );
-                  }, childCount: _entradas.length),
+                    (BuildContext context, int index) {
+                      return Container(
+                        margin: EdgeInsets.only(top: 12, left: 20, right: 20),
+                        child: EntradaWidget(
+                            entrada: _entradas[_entradas.length - index - 1]),
+                      );
+                    },
+                    childCount: _entradas.length,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 100,
+                  ),
                 ),
               ],
             ),

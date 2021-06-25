@@ -16,14 +16,13 @@ class VagasPage extends StatefulWidget {
 
 class _VagasPageState extends State<VagasPage> {
   TextEditingController _vagaIdController = TextEditingController();
-  TextEditingController _buscaController = TextEditingController();
 
   late List<Vaga> _vagas;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    _vagas = Store.vagasFiltradas;
+    _vagas = Store.vagas;
     super.initState();
   }
 
@@ -31,13 +30,6 @@ class _VagasPageState extends State<VagasPage> {
   void dispose() {
     _vagaIdController.dispose();
     super.dispose();
-  }
-
-  searchVaga() {
-    setState(() {
-      Store.filter = _buscaController.text;
-      _vagas = Store.vagasFiltradas;
-    });
   }
 
   Future<bool> _showAlertForm() async {
@@ -111,6 +103,13 @@ class _VagasPageState extends State<VagasPage> {
     });
   }
 
+  _searchVaga(String filter) {
+    setState(() {
+      Store.filter = filter;
+      _vagas = Store.vagasFiltradas;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -146,8 +145,9 @@ class _VagasPageState extends State<VagasPage> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: TextField(
-                        controller: _buscaController,
-                        onChanged: searchVaga(),
+                        onChanged: (value) {
+                          _searchVaga(value);
+                        },
                         style: AppTextStyles.body2RegularWhite,
                         decoration: InputDecoration(
                           prefixIconConstraints: BoxConstraints.tight(
@@ -179,7 +179,12 @@ class _VagasPageState extends State<VagasPage> {
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4),
-                )
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 100,
+                  ),
+                ),
               ],
             ),
           ),

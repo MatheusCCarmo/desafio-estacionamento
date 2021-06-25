@@ -8,27 +8,52 @@ class Store {
 
   static List<Vaga> get vagas => _vagas;
 
+  static String filter = '';
+
   static List<Vaga> get vagasFiltradas {
     if (filter == '') {
       return _vagas;
     }
-    return _vagas
+    var filtroVaga = _vagas
         .where((element) =>
             element.id.toLowerCase().contains(filter.toLowerCase()))
         .toList();
+
+    var filtroVeicle = _vagas
+        .where((element) =>
+            element.veicle.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+
+    var newList = [...filtroVaga, ...filtroVeicle].toSet().toList();
+
+    return newList;
   }
 
   static List<Entrada> get entradasFiltradas {
     if (filter == '') {
       return _entradas;
     }
-    return _entradas
+
+    var filtroVaga = _entradas
+        .where((element) =>
+            element.vaga.id.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+
+    var filtroVeicle = _entradas
         .where((element) =>
             element.veicle.toLowerCase().contains(filter.toLowerCase()))
         .toList();
-  }
 
-  static String filter = '';
+    var filtroEntryTime = _entradas
+        .where((element) =>
+            element.entryTime.toLowerCase().contains(filter.toLowerCase()))
+        .toList();
+
+    var newList =
+        [...filtroVaga, ...filtroVeicle, ...filtroEntryTime].toSet().toList();
+
+    return newList;
+  }
 
   static addVaga(Vaga vaga) {
     if (containsVaga(vaga.id)) {
