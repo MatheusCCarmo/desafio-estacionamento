@@ -9,6 +9,7 @@ import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_search_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class VagasPage extends StatefulWidget {
   const VagasPage({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class _VagasPageState extends State<VagasPage> {
 
   @override
   void initState() {
+    Store.loadVagas();
     _vagas = Store.vagas;
     formFields = [
       FormFieldWidget(

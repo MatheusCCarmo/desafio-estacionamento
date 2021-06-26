@@ -6,6 +6,7 @@ import 'package:estacionamento/shared/widgets/custom_button.dart';
 import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_search_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HistoricoPage extends StatefulWidget {
   const HistoricoPage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _HistoricoPageState extends State<HistoricoPage> {
 
   @override
   void initState() {
+    Store.loadHistorico();
     _historico = Store.historico;
     super.initState();
   }

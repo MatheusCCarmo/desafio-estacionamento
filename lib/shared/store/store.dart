@@ -1,5 +1,7 @@
 import 'package:estacionamento/model/entrada.dart';
 import 'package:estacionamento/model/vaga.dart';
+import 'package:get_storage/get_storage.dart';
+import 'dart:convert';
 
 class Store {
   static List<Vaga> _vagas = [];
@@ -14,7 +16,61 @@ class Store {
 
   static List<Entrada> get historico => _historico;
 
-  Future<void> _loadData() async {}
+  static Future<void> _saveVagas() async {
+    await GetStorage().write('vagas', json.encode(_vagas));
+  }
+
+  static loadVagas() {
+    if (GetStorage().read('vagas') == null) {
+      _vagas = [];
+      return;
+    }
+    String vagasData = GetStorage().read('vagas');
+
+    List<dynamic> listaDeJson = json.decode(vagasData);
+
+    List<Vaga> listaVagas = listaDeJson.map((e) => Vaga.fromJson(e)).toList();
+
+    _vagas = listaVagas;
+  }
+
+  static Future<void> _saveEntradas() async {
+    GetStorage().write('entradas', json.encode(_entradas));
+  }
+
+  static loadEntradas() {
+    if (GetStorage().read('entradas') == null) {
+      _entradas = [];
+      return;
+    }
+    String entradasData = GetStorage().read('entradas');
+
+    List<dynamic> listaDeJson = json.decode(entradasData);
+
+    List<Entrada> listaEntradas =
+        listaDeJson.map((e) => Entrada.fromJson(e)).toList();
+
+    _entradas = listaEntradas;
+  }
+
+  static Future<void> _saveHistorico() async {
+    GetStorage().write('historico', json.encode(_historico));
+  }
+
+  static loadHistorico() async {
+    if (GetStorage().read('historico') == null) {
+      _historico = [];
+      return;
+    }
+    String historicoData = GetStorage().read('historico');
+
+    List<dynamic> listaDeJson = json.decode(historicoData);
+
+    List<Entrada> listaHistorico =
+        listaDeJson.map((e) => Entrada.fromJson(e)).toList();
+
+    _historico = listaHistorico;
+  }
 
   static String filter = '';
 
@@ -98,15 +154,24 @@ class Store {
     return newList;
   }
 
+  static Vaga getVagaById(String id) {
+    return _vagas.firstWhere(
+      (element) => element.id == id,
+      orElse: () => Vaga(id: id),
+    );
+  }
+
   static addVaga(Vaga vaga) {
     if (containsVaga(vaga.id)) {
       return;
     }
     _vagas.add(vaga);
+    _saveVagas();
   }
 
   static removeVaga(Vaga vaga) {
     _vagas.remove(vaga);
+    _saveVagas();
   }
 
   static getVagaIndex(Vaga vaga) {
@@ -123,6 +188,7 @@ class Store {
 
   static limparVagasVazias() {
     _vagas = _vagas.where((element) => !element.isVacant).toList();
+    _saveVagas();
   }
 
   static getEntradaIndex(Entrada entrada) {
@@ -133,6 +199,7 @@ class Store {
   static setVagaVeicle(int itemIndex, String veicle) {
     _vagas.elementAt(itemIndex).veicle = veicle;
     _vagas.elementAt(itemIndex).isVacant = false;
+    _saveVagas();
   }
 
   static registrarSaida(Entrada entrada, String exitTime) {
@@ -140,11 +207,17 @@ class Store {
     _entradas.elementAt(itemIndex).exitTime = exitTime;
     _entradas.elementAt(itemIndex).vaga.veicle = 'Vazio';
     _entradas.elementAt(itemIndex).vaga.isVacant = true;
+
+    _saveVagas();
+    _saveEntradas();
   }
 
   static addEntrada(Entrada entrada) {
     _entradas.add(entrada);
     _historico.add(entrada);
+
+    _saveHistorico();
+    _saveEntradas();
 
     int itemIndex =
         _vagas.indexWhere((element) => element.id == entrada.vaga.id);
@@ -154,12 +227,15 @@ class Store {
     }
 
     _vagas.add(entrada.vaga);
+    _saveVagas();
   }
 
   static removeEntrada(Entrada entrada) {
     entrada.vaga.veicle = 'Vazio';
     entrada.vaga.isVacant = true;
     _entradas.remove(entrada);
+    _saveVagas();
+    _saveEntradas();
   }
 
   static limparEntradas() {
@@ -168,9 +244,12 @@ class Store {
       element.vaga.isVacant = true;
     });
     _entradas = [];
+    _saveVagas();
+    _saveEntradas();
   }
 
   static limparHistorico() {
     _historico = [];
+    _saveHistorico();
   }
 }

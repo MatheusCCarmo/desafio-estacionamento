@@ -11,6 +11,7 @@ import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_search_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class EntradasPage extends StatefulWidget {
   const EntradasPage({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _EntradasPageState extends State<EntradasPage> {
 
   @override
   void initState() {
+    Store.loadEntradas();
     _entradas = Store.entradas;
     formFields = [
       FormFieldWidget(

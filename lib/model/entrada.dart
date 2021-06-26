@@ -1,4 +1,5 @@
 import 'package:estacionamento/model/vaga.dart';
+import 'package:estacionamento/shared/store/store.dart';
 
 class Entrada {
   Vaga vaga;
@@ -14,13 +15,13 @@ class Entrada {
   });
 
   Entrada.fromJson(Map<String, dynamic> json)
-      : vaga = json['vaga'],
+      : vaga = Store.getVagaById(json['vagaId']),
         veicle = json['veicle'],
         entryTime = json['entryTime'],
         exitTime = json['exitTime'];
 
   Map<String, dynamic> toJson() => {
-        'vaga': vaga,
+        'vagaId': vaga.id,
         'veicle': veicle,
         'entryTime': entryTime,
         'exitTime': exitTime,
