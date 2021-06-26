@@ -6,7 +6,7 @@ class Vaga {
   Vaga({
     required this.id,
     this.isVacant = true,
-    this.veicle = 'Vazio',
+    this.veicle = 'VAZIO',
   });
 
   Vaga.fromJson(Map<String, dynamic> json)

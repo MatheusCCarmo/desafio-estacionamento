@@ -105,13 +105,13 @@ class _EntradasPageState extends State<EntradasPage> {
     if (!confirm) return;
 
     Vaga vaga = Vaga(
-      id: _vagaIdController.text,
-      veicle: _entradaVeicleController.text,
+      id: _vagaIdController.text.toUpperCase(),
+      veicle: _entradaVeicleController.text.toUpperCase(),
       isVacant: false,
     );
     Entrada entrada = Entrada(
       vaga: vaga,
-      veicle: _entradaVeicleController.text,
+      veicle: _entradaVeicleController.text.toUpperCase(),
       entryTime: _entradaEntryTimeController.text,
     );
 

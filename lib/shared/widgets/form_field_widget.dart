@@ -1,6 +1,5 @@
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
-import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class FormFieldWidget extends StatelessWidget {
@@ -8,12 +7,12 @@ class FormFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
 
-  const FormFieldWidget(
-      {Key? key,
-      required this.fieldDescription,
-      required this.controller,
-      required this.hintText})
-      : super(key: key);
+  const FormFieldWidget({
+    Key? key,
+    required this.fieldDescription,
+    required this.controller,
+    required this.hintText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +27,9 @@ class FormFieldWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
             ),
             child: TextFormField(
+              controller: controller,
+              cursorColor: AppColors.primary,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: TextStyle(fontSize: 14),
@@ -53,7 +55,6 @@ class FormFieldWidget extends StatelessWidget {
 
                 return null;
               },
-              controller: controller,
             ),
           ),
         ],

@@ -27,6 +27,7 @@ class SliverSearchWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
           ),
           child: TextField(
+            cursorColor: AppColors.white,
             onChanged: (value) {
               searchCallback(value);
             },

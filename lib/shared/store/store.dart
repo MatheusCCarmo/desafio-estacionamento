@@ -196,6 +196,11 @@ class Store {
     return itemIndex;
   }
 
+  static getHistoricoIndex(Entrada entrada) {
+    int itemIndex = _entradas.indexOf(entrada);
+    return itemIndex;
+  }
+
   static setVagaVeicle(int itemIndex, String veicle) {
     _vagas.elementAt(itemIndex).veicle = veicle;
     _vagas.elementAt(itemIndex).isVacant = false;
@@ -203,12 +208,16 @@ class Store {
   }
 
   static registrarSaida(Entrada entrada, String exitTime) {
-    int itemIndex = getEntradaIndex(entrada);
-    _entradas.elementAt(itemIndex).exitTime = exitTime;
-    _entradas.elementAt(itemIndex).vaga.veicle = 'Vazio';
-    _entradas.elementAt(itemIndex).vaga.isVacant = true;
+    int entradaIndex = getEntradaIndex(entrada);
+    _entradas.elementAt(entradaIndex).exitTime = exitTime;
+    _entradas.elementAt(entradaIndex).vaga.veicle = 'VAZIO';
+    _entradas.elementAt(entradaIndex).vaga.isVacant = true;
+
+    int historicoIndex = getHistoricoIndex(entrada);
+    _historico.elementAt(historicoIndex).exitTime = exitTime;
 
     _saveVagas();
+    _saveHistorico();
     _saveEntradas();
   }
 
@@ -231,7 +240,7 @@ class Store {
   }
 
   static removeEntrada(Entrada entrada) {
-    entrada.vaga.veicle = 'Vazio';
+    entrada.vaga.veicle = 'VAZIO';
     entrada.vaga.isVacant = true;
     _entradas.remove(entrada);
     _saveVagas();
@@ -240,7 +249,7 @@ class Store {
 
   static limparEntradas() {
     _entradas.forEach((element) {
-      element.vaga.veicle = 'Vazio';
+      element.vaga.veicle = 'VAZIO';
       element.vaga.isVacant = true;
     });
     _entradas = [];

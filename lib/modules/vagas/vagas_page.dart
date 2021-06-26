@@ -31,10 +31,9 @@ class _VagasPageState extends State<VagasPage> {
     _vagas = Store.vagas;
     formFields = [
       FormFieldWidget(
-        fieldDescription: 'Identificação da Nova Vaga',
-        controller: _vagaIdController,
-        hintText: 'Ex: 02, A1...',
-      ),
+          fieldDescription: 'Identificação da Nova Vaga',
+          controller: _vagaIdController,
+          hintText: 'Ex: 02, A1...'),
     ];
     super.initState();
   }
@@ -58,7 +57,7 @@ class _VagasPageState extends State<VagasPage> {
     bool confirm = await _showAlertForm();
     if (!confirm) return;
 
-    Vaga vaga = Vaga(id: _vagaIdController.text);
+    Vaga vaga = Vaga(id: _vagaIdController.text.toUpperCase());
 
     setState(() {
       Store.addVaga(vaga);
@@ -184,7 +183,7 @@ class _VagasPageState extends State<VagasPage> {
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
-                    childAspectRatio: 1.5,
+                    childAspectRatio: 1.8,
                   ),
                 ),
                 SliverToBoxAdapter(
