@@ -1,16 +1,39 @@
-# estacionamento
+# Estacionamento App
 
-A new Flutter project.
+App de um estacionamento desenvolvido com Flutter
 
-## Getting Started
+## Tabela de conteúdos
+<!--ts-->
+   * [Sobre](#sobre)
+   * [Telas](#telas)
+      * [Vagas](#vagas)
+      * [Entradas](#entradas)
+      * [Histórico](#histórico)
+<!--te-->
 
-This project is a starting point for a Flutter application.
+# Sobre
 
-A few resources to get you started if this is your first Flutter project:
+O aplicativo permite o gerenciamento de vagas e entradas em um estacionamento, gerando também um histórico das entradas registradas. Este app utiliza armazenamento local para os dados.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Telas
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+As 3 telas disponibilizam um botão para ordenar a lista em ordem alfabetica e outro para resetar todos os dados.
+
+### Vagas
+Esta tela permite ao usuário visualizar facilmente suas vagas, verificar se estão vazias ou ocupadas, criar novas vagas e apagar vagas que estejam vazias.
+
+<img src="https://user-images.githubusercontent.com/43590889/123518952-bec90300-d67e-11eb-955e-76c8a62f66df.png" width="360" height="640">
+
+
+### Entradas
+Esta tela permite ao usuário visualizar suas entradas com todas informações, criar uma nova entrada, registrar uma saída e apagar entradas via botão ou arrastando a entrada para a esquerda.
+
+<img src="https://user-images.githubusercontent.com/43590889/123518991-fcc62700-d67e-11eb-8060-8e12e15aedd3.png" width="360" height="640">
+
+
+### Histórico
+Esta tela permite ao usuário visualizar seu histórico de entradas com todas informações de cada entrada, e apagar todo o histórico. Sempre que uma entrada é criada ela é registrada no histórico. 
+
+<img src="https://user-images.githubusercontent.com/43590889/123519126-c76e0900-d67f-11eb-8cc5-a4ffa82b66c4.png" width="360" height="640">
+
+
