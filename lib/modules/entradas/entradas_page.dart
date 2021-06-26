@@ -3,6 +3,7 @@ import 'package:estacionamento/model/vaga.dart';
 import 'package:estacionamento/modules/entradas/entrada_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
+import 'package:estacionamento/shared/themes/app_images.dart';
 import 'package:estacionamento/shared/widgets/custom_button.dart';
 import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
@@ -174,11 +175,16 @@ class _EntradasPageState extends State<EntradasPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.background,
       width: double.infinity,
+      color: AppColors.background,
       child: Stack(
         alignment: Alignment.center,
         children: [
+          Image.asset(
+            AppImages.backgroundImage,
+            fit: BoxFit.cover,
+            color: AppColors.transparentGrey,
+          ),
           Container(
             child: CustomScrollView(
               slivers: [

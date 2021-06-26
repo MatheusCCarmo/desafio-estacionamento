@@ -2,6 +2,7 @@ import 'package:estacionamento/model/entrada.dart';
 import 'package:estacionamento/modules/historico/historico_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
+import 'package:estacionamento/shared/themes/app_images.dart';
 import 'package:estacionamento/shared/widgets/custom_button.dart';
 import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_search_widget.dart';
@@ -84,6 +85,11 @@ class _HistoricoPageState extends State<HistoricoPage> {
       child: Stack(
         alignment: Alignment.center,
         children: [
+          Image.asset(
+            AppImages.backgroundImage,
+            fit: BoxFit.cover,
+            color: AppColors.transparentGrey,
+          ),
           Container(
             child: CustomScrollView(
               slivers: [

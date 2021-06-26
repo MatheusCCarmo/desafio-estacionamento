@@ -2,6 +2,7 @@ import 'package:estacionamento/model/vaga.dart';
 import 'package:estacionamento/modules/vagas/vaga_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
+import 'package:estacionamento/shared/themes/app_images.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:estacionamento/shared/widgets/custom_button.dart';
 import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
@@ -158,6 +159,11 @@ class _VagasPageState extends State<VagasPage> {
       child: Stack(
         alignment: Alignment.center,
         children: [
+          Image.asset(
+            AppImages.backgroundImage,
+            fit: BoxFit.cover,
+            color: AppColors.transparentGrey,
+          ),
           Container(
             child: CustomScrollView(
               slivers: [
