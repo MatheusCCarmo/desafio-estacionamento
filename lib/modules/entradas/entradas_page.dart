@@ -105,14 +105,14 @@ class _EntradasPageState extends State<EntradasPage> {
     if (!confirm) return;
 
     Vaga vaga = Vaga(
-      id: _vagaIdController.text.toUpperCase(),
-      veicle: _entradaVeicleController.text.toUpperCase(),
+      id: _vagaIdController.text.trim().toUpperCase(),
+      veicle: _entradaVeicleController.text.trim().toUpperCase(),
       isVacant: false,
     );
     Entrada entrada = Entrada(
       vaga: vaga,
-      veicle: _entradaVeicleController.text.toUpperCase(),
-      entryTime: _entradaEntryTimeController.text,
+      veicle: _entradaVeicleController.text.trim().toUpperCase(),
+      entryTime: _entradaEntryTimeController.text.trim(),
     );
 
     setState(() {
@@ -172,6 +172,13 @@ class _EntradasPageState extends State<EntradasPage> {
     });
   }
 
+  _sortHandler() {
+    setState(() {
+      Store.sortEntradas();
+      _entradas = Store.entradas;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -191,6 +198,7 @@ class _EntradasPageState extends State<EntradasPage> {
                 SliverAppBarWidget(
                   title: 'Entradas',
                   cautionHandler: _cautionHandler,
+                  sortHandler: _sortHandler,
                 ),
                 SliverSearchWidget(searchCallback: _searchEntrada),
                 SliverList(

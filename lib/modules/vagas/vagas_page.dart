@@ -57,7 +57,7 @@ class _VagasPageState extends State<VagasPage> {
     bool confirm = await _showAlertForm();
     if (!confirm) return;
 
-    Vaga vaga = Vaga(id: _vagaIdController.text.toUpperCase());
+    Vaga vaga = Vaga(id: _vagaIdController.text.trim().toUpperCase());
 
     setState(() {
       Store.addVaga(vaga);
@@ -150,6 +150,13 @@ class _VagasPageState extends State<VagasPage> {
     });
   }
 
+  _sortHandler() {
+    setState(() {
+      Store.sortVagas();
+      _vagas = Store.vagas;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -169,13 +176,14 @@ class _VagasPageState extends State<VagasPage> {
                 SliverAppBarWidget(
                   title: 'Vagas',
                   cautionHandler: _cautionHandler,
+                  sortHandler: _sortHandler,
                 ),
                 SliverSearchWidget(searchCallback: _searchVaga),
                 SliverGrid(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       return VagaWidget(
-                        vaga: _vagas[_vagas.length - index - 1],
+                        vaga: _vagas[index],
                         onTapCallback: _showVagaDialog,
                       );
                     },

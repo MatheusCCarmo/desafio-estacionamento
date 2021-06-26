@@ -39,8 +39,8 @@ class FormFieldWidget extends StatelessWidget {
                   return 'Preencha o campo!';
                 }
 
-                int itemIndex =
-                    Store.vagas.indexWhere((element) => element.id == value);
+                int itemIndex = Store.vagas.indexWhere(
+                    (element) => element.id == value.trim().toUpperCase());
 
                 if (itemIndex != -1 &&
                     !Store.vagas.elementAt(itemIndex).isVacant &&

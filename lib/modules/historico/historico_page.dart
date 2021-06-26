@@ -77,6 +77,13 @@ class _HistoricoPageState extends State<HistoricoPage> {
     });
   }
 
+  _sortHandler() {
+    setState(() {
+      Store.sortHistorico();
+      _historico = Store.historico;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -96,6 +103,7 @@ class _HistoricoPageState extends State<HistoricoPage> {
                 SliverAppBarWidget(
                   title: 'Histórico',
                   cautionHandler: _cautionHandler,
+                  sortHandler: _sortHandler,
                 ),
                 SliverSearchWidget(searchCallback: _searchHistorico),
                 SliverList(

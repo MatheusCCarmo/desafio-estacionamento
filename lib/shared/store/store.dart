@@ -16,6 +16,8 @@ class Store {
 
   static List<Entrada> get historico => _historico;
 
+  static String filter = '';
+
   static Future<void> _saveVagas() async {
     await GetStorage().write('vagas', json.encode(_vagas));
   }
@@ -71,8 +73,6 @@ class Store {
 
     _historico = listaHistorico;
   }
-
-  static String filter = '';
 
   static List<Vaga> get vagasFiltradas {
     if (filter == '') {
@@ -152,6 +152,21 @@ class Store {
     ].toSet().toList();
 
     return newList;
+  }
+
+  static sortVagas() {
+    _vagas.sort((a, b) => a.id.compareTo(b.id));
+    _saveVagas();
+  }
+
+  static sortEntradas() {
+    _entradas.sort((a, b) => b.vaga.id.compareTo(a.vaga.id));
+    _saveEntradas();
+  }
+
+  static sortHistorico() {
+    _historico.sort((a, b) => b.vaga.id.compareTo(a.vaga.id));
+    _saveHistorico();
   }
 
   static Vaga getVagaById(String id) {

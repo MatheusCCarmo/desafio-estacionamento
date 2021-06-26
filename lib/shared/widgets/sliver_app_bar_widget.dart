@@ -1,12 +1,16 @@
+import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 
 class SliverAppBarWidget extends StatelessWidget {
   final String title;
   final Function cautionHandler;
+  final Function sortHandler;
   const SliverAppBarWidget(
-      {Key? key, required this.title, required this.cautionHandler})
+      {Key? key,
+      required this.title,
+      required this.cautionHandler,
+      required this.sortHandler})
       : super(key: key);
 
   _showAlertDialog(BuildContext context) {
@@ -45,6 +49,15 @@ class SliverAppBarWidget extends StatelessWidget {
         style: AppTextStyles.titleRegularWhite,
       ),
       actions: [
+        IconButton(
+          onPressed: () {
+            sortHandler();
+          },
+          icon: Icon(
+            Icons.filter_list,
+            size: 30,
+          ),
+        ),
         IconButton(
           onPressed: () {
             _showAlertDialog(context);

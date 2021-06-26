@@ -52,7 +52,7 @@ class _EntradaWidgetState extends State<EntradaWidget> {
     if (!confirm) return;
 
     setState(() {
-      Store.registrarSaida(widget.entrada, _exitTimeController.text);
+      Store.registrarSaida(widget.entrada, _exitTimeController.text.trim());
     });
   }
 
