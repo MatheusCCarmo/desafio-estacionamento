@@ -11,7 +11,7 @@ App de um estacionamento desenvolvido com Flutter
       * [Histórico](#histórico)
 <!--te-->
 
-# Sobre
+## Sobre
 
 O aplicativo permite o gerenciamento de vagas e entradas em um estacionamento, gerando também um histórico das entradas registradas. Este app utiliza armazenamento local para os dados.
 
