@@ -3,13 +3,11 @@ import 'package:estacionamento/model/vaga.dart';
 import 'package:estacionamento/modules/entradas/entrada_widget.dart';
 import 'package:estacionamento/shared/store/store.dart';
 import 'package:estacionamento/shared/themes/app_colors.dart';
-import 'package:estacionamento/shared/themes/app_text_styles.dart';
 import 'package:estacionamento/shared/widgets/custom_button.dart';
 import 'package:estacionamento/shared/widgets/alert_form_widget.dart';
 import 'package:estacionamento/shared/widgets/form_field_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_app_bar_widget.dart';
 import 'package:estacionamento/shared/widgets/sliver_search_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -165,6 +163,14 @@ class _EntradasPageState extends State<EntradasPage> {
     );
   }
 
+  _cautionHandler() {
+    setState(() {
+      GetStorage().erase();
+      Store.loadEntradas();
+      _entradas = Store.entradas;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -176,7 +182,10 @@ class _EntradasPageState extends State<EntradasPage> {
           Container(
             child: CustomScrollView(
               slivers: [
-                SliverAppBarWidget(title: 'Entradas'),
+                SliverAppBarWidget(
+                  title: 'Entradas',
+                  cautionHandler: _cautionHandler,
+                ),
                 SliverSearchWidget(searchCallback: _searchEntrada),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -201,16 +210,20 @@ class _EntradasPageState extends State<EntradasPage> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.bottomCenter,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomButton(
-                  title: 'Limpar Entradas',
-                  onTapFunction: _limparEntradas,
-                  icon: Icons.delete,
-                  color: AppColors.delete,
-                ),
+                _entradas.length > 0
+                    ? CustomButton(
+                        title: 'Limpar Entradas',
+                        onTapFunction: _limparEntradas,
+                        icon: Icons.delete,
+                        color: AppColors.delete,
+                      )
+                    : SizedBox(
+                        height: 40,
+                      ),
                 CustomButton(
                   title: 'Adicionar Entrada',
                   color: AppColors.primary,

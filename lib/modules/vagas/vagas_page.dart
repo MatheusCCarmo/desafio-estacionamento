@@ -142,6 +142,14 @@ class _VagasPageState extends State<VagasPage> {
     );
   }
 
+  _cautionHandler() {
+    setState(() {
+      GetStorage().erase();
+      Store.loadVagas();
+      _vagas = Store.vagas;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -153,7 +161,10 @@ class _VagasPageState extends State<VagasPage> {
           Container(
             child: CustomScrollView(
               slivers: [
-                SliverAppBarWidget(title: 'Vagas'),
+                SliverAppBarWidget(
+                  title: 'Vagas',
+                  cautionHandler: _cautionHandler,
+                ),
                 SliverSearchWidget(searchCallback: _searchVaga),
                 SliverGrid(
                   delegate: SliverChildBuilderDelegate(
@@ -183,12 +194,16 @@ class _VagasPageState extends State<VagasPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomButton(
-                  title: 'Limpar Vagas',
-                  onTapFunction: _limparVagas,
-                  icon: Icons.delete,
-                  color: AppColors.delete,
-                ),
+                _vagas.length > 0
+                    ? CustomButton(
+                        title: 'Limpar Vagas',
+                        onTapFunction: _limparVagas,
+                        icon: Icons.delete,
+                        color: AppColors.delete,
+                      )
+                    : SizedBox(
+                        height: 40,
+                      ),
                 CustomButton(
                   title: 'Adicionar Vaga',
                   color: AppColors.primary,

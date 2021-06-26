@@ -68,6 +68,14 @@ class _HistoricoPageState extends State<HistoricoPage> {
     );
   }
 
+  _cautionHandler() {
+    setState(() {
+      GetStorage().erase();
+      Store.loadHistorico();
+      _historico = Store.historico;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,7 +87,10 @@ class _HistoricoPageState extends State<HistoricoPage> {
           Container(
             child: CustomScrollView(
               slivers: [
-                SliverAppBarWidget(title: 'Histórico'),
+                SliverAppBarWidget(
+                  title: 'Histórico',
+                  cautionHandler: _cautionHandler,
+                ),
                 SliverSearchWidget(searchCallback: _searchHistorico),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -102,20 +113,16 @@ class _HistoricoPageState extends State<HistoricoPage> {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomButton(
-                  title: 'Limpar Histórico',
-                  onTapFunction: _limparHistorico,
-                  icon: Icons.delete,
-                  color: AppColors.delete,
-                ),
-              ],
-            ),
-          )
+          if (_historico.length > 0)
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: CustomButton(
+                title: 'Limpar Histórico',
+                onTapFunction: _limparHistorico,
+                icon: Icons.delete,
+                color: AppColors.delete,
+              ),
+            )
         ],
       ),
     );
